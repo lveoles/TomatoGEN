@@ -30,7 +30,7 @@ betas: 0.9, 0.999
 device: '0'
 dataset: 'mydata'
 pcnpath: $PATH/ShapeNetCompletion
-c3dpath: /media/zhutianyu/6D6A209A6663F595/ubuntushare/zty/dataset-all/shapenet
-mydatapath: /media/zhutianyu/6D6A209A6663F595/ubuntushare/zty/dataset-all/果实数据增强
+c3dpath: 
+mydatapath: 
 # test
 save_vis: False
