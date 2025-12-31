@@ -5,8 +5,8 @@ import torch.nn.parallel
 import torch.utils.data
 import torch.nn.functional as F
 import math
-from utils.model_utils import *
-from utils.mm3d_pn2 import furthest_point_sample, gather_points,grouping_operation,ball_query
+import utils.model_utils
+import utils.mm3d_pn2
 
 class BoxQueryAndGroup(nn.Module):
     def __init__(self, radius, nsample, use_xyz=True, normalize_xyz=False):
