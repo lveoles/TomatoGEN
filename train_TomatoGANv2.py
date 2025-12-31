@@ -185,35 +185,6 @@ def count_parameters(model):
     total_params = sum(p.numel() for p in model.parameters())
     return total_params
 
-# def train_one_epoch(epoch, args, net, dataloader, optimizer, train_loss_meter, lr, accumulation_steps=8):
-#     """
-#     训练一个epoch。
-#     """
-#     net.module.train()
-#     train_loss_meter.reset()
-#     for i, data in enumerate(tqdm(dataloader,desc=f"Epoch {epoch}/{args.nepoch}",ncols=100), 0):
-#         optimizer.zero_grad()
-#         _, inputs, gt = data
-#         inputs = inputs.float().cuda()
-#         gt = gt.float().cuda()
-#         inputs = inputs.transpose(2, 1).contiguous()#数据转秩
-#         # 使用梯度累积
-#         out2, loss2, net_loss = net(inputs, gt)  # 前向传播，计算损失
-#         train_loss_meter.update(net_loss.mean().item())  # 更新损失记录
-#         # 累积梯度
-#         net_loss.backward()
-#         # 梯度累积策略：每 accumulate_steps 步后更新一次参数
-#         if (i + 1) % accumulation_steps == 0:
-#             optimizer.step()  # 更新参数
-#             optimizer.zero_grad()  # 清空梯度
-#     torch.cuda.empty_cache()
-#     log_msg = (f'{exp_name} train epoch[{epoch}] '
-#                f'loss_type: {args.loss}, '
-#                f'fine_loss: {loss2.mean().item():f} '
-#                f'total_loss: {net_loss.mean().item():f} '
-#                f'lr: {lr:f}')
-#     logging.info(log_msg)
-
 def train(args):
     """
     主训练函数，负责模型的训练过程。
@@ -260,48 +231,6 @@ def train(args):
                 break
         #     scheduler.step()
 
-# def train_one_epoch(epoch, args, net, dataloader, optimizer_G, optimizer_D, train_loss_meter, lr, scheduler_D,scheduler_G, accumulation_steps=8):
-#     net.module.train()
-#     train_loss_meter.reset()
-#     for i, data in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}/{args.nepoch}", ncols=100), 0):
-#         optimizer_G.zero_grad()
-#         optimizer_D.zero_grad()
-#         _, inputs, gt = data
-#         inputs = inputs.float().cuda()
-#         gt = gt.float().cuda()
-#         inputs = inputs.transpose(2, 1).contiguous()
-#         # Forward + loss
-#         result,gt2, coarse, total_train_loss = net(inputs, gt, is_training=True)
-#         # ========== 判别器训练 ==========
-#         real_label = torch.ones(coarse.size(0), 1).to(coarse.device)
-#         fake_label = torch.zeros(coarse.size(0), 1).to(coarse.device)
-#         # before forward:
-#         for p in net.module.discriminator.parameters():
-#             p.requires_grad = False
-#         optimizer_G.zero_grad()
-#         total_train_loss.backward()
-#         optimizer_G.step()
-#         # re-enable D
-#         for p in net.module.discriminator.parameters():
-#             p.requires_grad = True
-#         # now do D update on detached fake samples:
-#         fake_detached = result.detach()
-#         real_output = net.module.discriminator(gt2.transpose(1, 2).contiguous())
-#         fake_output = net.module.discriminator(fake_detached.transpose(1, 2).contiguous())
-#         d_loss = F.binary_cross_entropy(real_output, real_label) + \
-#                  F.binary_cross_entropy(fake_output, fake_label)
-#         optimizer_D.zero_grad()
-#         d_loss.backward()
-#         optimizer_D.step()
-#         scheduler_D.step(d_loss.item())
-#     torch.cuda.empty_cache()
-#     logging.info(f"Epoch [{epoch}] Gen Loss: {total_train_loss.item():.6f}, Disc Loss: {d_loss.item():.6f}")
-#     logging.info(
-#         f"Epoch [{epoch}] | Gen Loss: {total_train_loss.item():.6f} | "
-#         f"Disc Loss: {d_loss.item():.6f} | "
-#         f"LR_G: {optimizer_G.param_groups[0]['lr']:.6e} | "
-#         f"LR_D: {optimizer_D.param_groups[0]['lr']:.6e}"
-#     )
 
 def train_one_epoch(epoch, args, net, dataloader,
                     optimizer_G, optimizer_D, train_loss_meter, lr,
@@ -411,7 +340,6 @@ def train_one_epoch(epoch, args, net, dataloader,
         f"LR_G: {optimizer_G.param_groups[0]['lr']:.6e} | "
         f"LR_D: {optimizer_D.param_groups[0]['lr']:.6e}"
     )
-    # 清理无用的 CUDA 缓存
     torch.cuda.empty_cache()
 
 def set_random_seed(args):
