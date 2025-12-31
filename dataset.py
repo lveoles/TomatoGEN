@@ -9,7 +9,6 @@ import transforms3d
 import random
 from utils.mm3d_pn2 import furthest_point_sample
 from tensorpack import dataflow
-###需要修改的内容：将标准化pcnormal迁入到encoder之前 并且设计denormal逆标准化函数恢复尺度（仅在测试中 对model类返回的corase和fine1进行逆标准化）
 
 class mydataloader(data.Dataset):
     # 自定义数据集类，继承自torch的Dataset
