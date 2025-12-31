@@ -1,10 +1,10 @@
 batch_size: 2
 workers: 4
 nepoch: 1
-model_name: PointAttN
+model_name: TomatoGENv2
 load_model:  False
 start_epoch: 0
-num_points_input: 6000
+num_points_input: 20000
 is_rgb: False
 work_dir: log/
 flag: debug
@@ -29,7 +29,7 @@ betas: 0.9, 0.999
 
 device: '0'
 dataset: 'mydata'
-pcnpath: $PATH/ShapeNetCompletion
+pcnpath: 
 c3dpath: 
 mydatapath: 
 # test
