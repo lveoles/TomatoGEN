@@ -64,18 +64,14 @@ def main():
     print('0')
     # 硬编码路径配置（可根据需要修改这些变量）
     ##############################################
-    MODEL_PATH = ("/media/zhutianyu/6D6A209A6663F595/ubuntushare/zty/PointAttN/log/"
-                  "PointAttN_cd_debug_c3d/2025-03-21T16-34-27/network.pth")  # 预训练模型路径
-    INPUT_TXT = ("/media/zhutianyu/6D6A209A6663F595/ubuntushare/zty/dataset-all/果实数据增强/train/partial/揉谷/"
-                    "1-label_label_1-task1-ratio60-part-perturb-4-0.6000.txt")  # 输入点云文件
-    OUTPUT_PATH = ("/media/zhutianyu/6D6A209A6663F595/ubuntushare/zty/PointAttN/log/"
-                   "PointAttN_cd_debug_c3d/2025-03-21T16-34-27/")
-    #输出结果路径
-    GPU_ID = args.device # 使用的GPU编号
+    MODEL_PATH = ("/log/model/xxxxx/network.pth")  
+    INPUT_TXT = ("PATH of dataset") 
+    OUTPUT_PATH = ("")
+    GPU_ID = args.device
     ##############################################
     # 正确做法
     base_name = os.path.basename(INPUT_TXT)  # 获取纯文件名
-    file_name = os.path.splitext(base_name)[0]  # 正确分割
+    file_name = os.path.splitext(base_name)[0]  
     OUTPUT_TXT = file_name+ '_test1225.txt'
     OUTPUT_dir = os.path.join(OUTPUT_PATH, OUTPUT_TXT)
     print('1')
